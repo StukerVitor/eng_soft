@@ -118,3 +118,14 @@ Isso abrirá uma interface web interativa em `http://localhost:5555`, onde você
 - Ver usuários cadastrados
 - Inspecionar tarefas e comentários
 - Editar ou remover registros manualmente
+
+## 🆕 Script de Setup Automático
+
+Execute `./setup.sh` na raiz do projeto para instalar dependências, gerar o banco SQLite, semear dados iniciais e preparar o frontend.
+
+Isso garante que você possa rodar a aplicação com:
+
+```bash
+cd api && npm run dev
+cd web && npm run dev
+```

@@ -1,0 +1,32 @@
+# ───────── Diretórios de dependências ───────── #
+node_modules/
+
+# ───────── Build & Cache ───────── #
+dist/
+build/
+coverage/
+.cache/
+.vite/
+.next/
+out/
+*.log
+
+# ───────── Arquivos de ambiente ───────── #
+.env
+.env.*       # .env.local, .env.test, etc.
+
+# ───────── Prisma ───────── #
+prisma/dev.db
+prisma/dev.db-journal
+
+# ───────── TypeScript ───────── #
+*.tsbuildinfo
+
+# ───────── IDEs / Editores ───────── #
+.vscode/
+.idea/
+*.sw?
+.DS_Store
+
+# ───────── Sistema operacional ───────── #
+Thumbs.db
