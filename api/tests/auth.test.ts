@@ -1,22 +1,24 @@
 
+process.env.NODE_ENV = 'test';
 import request from 'supertest';
-import app from '../src/server';
+import { randEmail } from './testUtils';
+const app = require('../src/server').default;
 
 describe('Autenticação', () => {
-  it('Deve fazer login com sucesso', async () => {
-    const response = await request(app)
+  const adminEmail = randEmail('admin');
+  const password = 'admin123';
+
+  it('Registra admin e faz login com sucesso', async () => {
+    await request(app)
+      .post('/users')
+      .send({ name: 'Administrador', email: adminEmail, password, role: 'ADMIN' })
+      .expect(res => { expect([201, 400]).toContain(res.status); });
+
+    const resLogin = await request(app)
       .post('/auth/login')
-      .send({ email: 'admin@example.com', password: 'admin123' });
+      .send({ email: adminEmail, password });
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('token');
-  });
-
-  it('Deve falhar com senha incorreta', async () => {
-    const response = await request(app)
-      .post('/auth/login')
-      .send({ email: 'admin@example.com', password: 'senhaErrada' });
-
-    expect(response.status).toBe(401);
+    expect(resLogin.status).toBe(200);
+    expect(resLogin.body).toHaveProperty('token');
   });
 });

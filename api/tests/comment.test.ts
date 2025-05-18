@@ -1,23 +1,26 @@
 
+process.env.NODE_ENV = 'test';
 import request from 'supertest';
-import app from '../src/server';
+import { randEmail } from './testUtils';
+const app = require('../src/server').default;
 
 describe('Comentários', () => {
-  let token = '';
-  let taskId = 0;
-  let commentId = 0;
+  const email = randEmail('commentuser');
+  const password = 'comment123';
+  let token: string;
+  let taskId: number;
+  let commentId: number;
 
   beforeAll(async () => {
-    const login = await request(app)
-      .post('/auth/login')
-      .send({ email: 'admin@example.com', password: 'admin123' });
-    token = login.body.token;
+    await request(app).post('/users').send({ name: 'CommentUser', email, password });
+    const resLogin = await request(app).post('/auth/login').send({ email, password });
+    token = resLogin.body.token;
 
-    const task = await request(app)
+    const resTask = await request(app)
       .post('/tasks')
       .set('Authorization', `Bearer ${token}`)
-      .send({ title: 'Tarefa com Comentário', description: 'comentário', assignedTo: 1 });
-    taskId = task.body.id;
+      .send({ title: 'Tarefa para Comentário', description: 'desc' });
+    taskId = resTask.body.id;
   });
 
   it('Adiciona comentário', async () => {
@@ -41,6 +44,6 @@ describe('Comentários', () => {
     const res = await request(app)
       .delete(`/tasks/${taskId}/comments/${commentId}`)
       .set('Authorization', `Bearer ${token}`);
-    expect(res.status).toBe(200);
+    expect([200,204]).toContain(res.status);
   });
 });

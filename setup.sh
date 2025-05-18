@@ -8,7 +8,7 @@ npm install
 npx prisma generate --schema=src/prisma/schema.prisma
 npx prisma db push --schema=src/prisma/schema.prisma
 npx ts-node src/prisma/seed.ts
-npm install --save-dev @types/swagger-ui-express @types/cors@latest @types/winston ts-jest @types/jest jest supertest @types/supertest ts-node-dev
+npm install --save-dev @types/swagger-ui-express @types/cors@latest @types/winston ts-jest @types/jest jest supertest @types/supertest ts-node-dev cross-env
 npm install cors winston bcrypt jsonwebtoken morgan
 echo "Backend ready."
 

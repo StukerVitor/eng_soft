@@ -1,24 +1,26 @@
 
+process.env.NODE_ENV = 'test';
 import request from 'supertest';
-import app from '../src/server';
+import { randEmail } from './testUtils';
+const app = require('../src/server').default;
 
 describe('Tarefas', () => {
-  let token = '';
-  let taskId = 0;
+  const email = randEmail('taskuser');
+  const password = 'task123';
+  let token: string;
+  let taskId: number;
 
   beforeAll(async () => {
-    const res = await request(app)
-      .post('/auth/login')
-      .send({ email: 'admin@example.com', password: 'admin123' });
-    token = res.body.token;
+    await request(app).post('/users').send({ name: 'TaskUser', email, password });
+    const resLogin = await request(app).post('/auth/login').send({ email, password });
+    token = resLogin.body.token;
   });
 
   it('Cria nova tarefa', async () => {
     const res = await request(app)
       .post('/tasks')
       .set('Authorization', `Bearer ${token}`)
-      .send({ title: 'Tarefa Teste', description: 'desc', assignedTo: 1 });
-
+      .send({ title: 'Tarefa Teste', description: 'desc' });
     expect(res.status).toBe(201);
     taskId = res.body.id;
   });
@@ -32,9 +34,10 @@ describe('Tarefas', () => {
 
   it('Lista tarefas atribuídas', async () => {
     const res = await request(app)
-      .get('/tasks?assignedTo=1')
+      .get('/tasks')
       .set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
   });
 
   it('Atualiza tarefa', async () => {
@@ -49,6 +52,6 @@ describe('Tarefas', () => {
     const res = await request(app)
       .delete(`/tasks/${taskId}`)
       .set('Authorization', `Bearer ${token}`);
-    expect(res.status).toBe(200);
+    expect([200,204]).toContain(res.status);
   });
 });

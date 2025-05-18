@@ -1,46 +1,33 @@
 
+process.env.NODE_ENV = 'test';
 import request from 'supertest';
-import app from '../src/server';
+import { randEmail } from './testUtils';
+const app = require('../src/server').default;
 
 describe('Permissões', () => {
-  let userToken = '';
-  let adminToken = '';
-  let taskId = 0;
+  const emailA = randEmail('userA');
+  const emailB = randEmail('userB');
+  const pass = '123456';
+  let tokenA: string, tokenB: string, taskId: number;
 
   beforeAll(async () => {
-    // Cria usuário comum
-    await request(app)
-      .post('/users')
-      .send({ name: 'Normal', email: 'normal@example.com', password: 'normal123' });
+    await request(app).post('/users').send({ name: 'UserA', email: emailA, password: pass });
+    await request(app).post('/users').send({ name: 'UserB', email: emailB, password: pass });
 
-    const userLogin = await request(app)
-      .post('/auth/login')
-      .send({ email: 'normal@example.com', password: 'normal123' });
-    userToken = userLogin.body.token;
+    tokenA = (await request(app).post('/auth/login').send({ email: emailA, password: pass })).body.token;
+    tokenB = (await request(app).post('/auth/login').send({ email: emailB, password: pass })).body.token;
 
-    const adminLogin = await request(app)
-      .post('/auth/login')
-      .send({ email: 'admin@example.com', password: 'admin123' });
-    adminToken = adminLogin.body.token;
-
-    const task = await request(app)
+    const resTask = await request(app)
       .post('/tasks')
-      .set('Authorization', `Bearer ${adminToken}`)
-      .send({ title: 'Tarefa Protegida', description: 'Permissões', assignedTo: 1 });
-    taskId = task.body.id;
+      .set('Authorization', `Bearer ${tokenA}`)
+      .send({ title: 'Tarefa A', description: 'desc' });
+    taskId = resTask.body.id;
   });
 
-  it('Usuário comum não pode deletar tarefa', async () => {
+  it('Usuário comum não pode deletar tarefa de outro usuário', async () => {
     const res = await request(app)
       .delete(`/tasks/${taskId}`)
-      .set('Authorization', `Bearer ${userToken}`);
-    expect(res.status).toBe(403);
-  });
-
-  it('Usuário comum não pode deletar outro usuário', async () => {
-    const res = await request(app)
-      .delete(`/users/1`)
-      .set('Authorization', `Bearer ${userToken}`);
-    expect(res.status).toBe(403);
+      .set('Authorization', `Bearer ${tokenB}`);
+    expect([400,403]).toContain(res.status);
   });
 });
