@@ -23,32 +23,14 @@ Este projeto consiste em uma aplicação **full-stack** com backend em **Node.js
 
 ## 🚀 Como executar localmente
 
-### 🖥️ Backend
-
 ```bash
-cd api
-npm install
-npx prisma generate --schema=src/prisma/schema.prisma
-npx prisma db push --schema=src/prisma/schema.prisma
-npx ts-node src/prisma/seed.ts
-npm install --save-dev @types/swagger-ui-express
-npm install cors
-npm install --save-dev @types/cors
-npm install winston
-npm install --save-dev @types/winston
-npm run dev
-```
+# na raiz do projeto
+chmod +x setup.sh
+./setup.sh
 
-### 🌐 Frontend
-
-```bash
-cd web
-npm install
-npm install -D @vitejs/plugin-react
-npm install --save-dev @types/react @types/react-dom
-npm install react-icons
-npm install -D @tailwindcss/postcss
-npm run dev
+# em terminais separados
+cd api && npm run dev       # backend em localhost:3000
+cd web && npm run dev       # frontend em localhost:5173
 ```
 
 ---
