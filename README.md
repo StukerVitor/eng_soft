@@ -71,7 +71,7 @@ Documentação completa disponível em `/docs`:
 - [x] Cadastro de novo usuário
 - [x] Painel de tarefas atribuídas
 - [x] Visualização detalhada de tarefa
-- [x] Criação, edição e remoção de tarefas
+- [x] Criar, editar, completar e remover tarefas
 - [x] Comentários com exclusão por autor ou admin
 - [x] Interface separada para Admin (com avisos)
 - [x] Confirmação antes de ações destrutivas
