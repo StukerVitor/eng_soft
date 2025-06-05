@@ -20,11 +20,16 @@ model User {
   comments  Comment[]
 }
 
+enum TaskStatus {
+  PENDING
+  DONE
+}
+
 model Task {
   id          Int       @id @default(autoincrement())
   title       String
   description String
-  status      String     @default("pending")
+  status      TaskStatus  @default(PENDING)   // ② Agora enum
   assignedTo  Int?
   user        User?      @relation("AssignedTasks", fields: [assignedTo], references: [id])
   comments    Comment[]
@@ -32,13 +37,11 @@ model Task {
   updatedAt   DateTime   @updatedAt
 }
 
-
 enum Role {
   ADMIN
   USER
   GUEST
 }
-
 
 model Comment {
   id        Int      @id @default(autoincrement())

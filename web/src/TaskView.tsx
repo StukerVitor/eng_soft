@@ -1,6 +1,5 @@
-
-import { FaTasks, FaUser, FaSignOutAlt, FaCommentDots } from 'react-icons/fa';
-import React, { useEffect, useState } from 'react';
+import { FaTasks, FaUser, FaSignOutAlt, FaCommentDots } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   taskId: number;
@@ -11,7 +10,7 @@ interface Props {
 
 function TaskView({ taskId, token, user, onBack }: Props) {
   const [task, setTask] = useState<any>(null);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
 
   const loadTask = async () => {
     const res = await fetch(`http://localhost:3000/tasks/${taskId}`, {
@@ -23,20 +22,20 @@ function TaskView({ taskId, token, user, onBack }: Props) {
 
   const postComment = async () => {
     await fetch(`http://localhost:3000/tasks/${taskId}/comments`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ content: comment }),
     });
-    setComment('');
+    setComment("");
     loadTask();
   };
 
   const deleteComment = async (commentId: number) => {
     await fetch(`http://localhost:3000/tasks/${taskId}/comments/${commentId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
     loadTask();
@@ -50,19 +49,51 @@ function TaskView({ taskId, token, user, onBack }: Props) {
 
   return (
     <div className="p-4 bg-white rounded shadow">
-      <button onClick={onBack} className="text-blue-500 underline mb-4">← Voltar</button>
+      <button onClick={onBack} className="text-blue-500 underline mb-4">
+        ← Voltar
+      </button>
       <h2 className="text-xl font-bold">{task.title}</h2>
       <p className="mb-4">{task.description}</p>
+      {/* ⬇️ novo: status na tela de detalhe */}
+      <p
+        className={`mb-4 text-sm font-medium ${
+          task.status === "DONE" ? "text-green-600" : "text-yellow-600"
+        }`}
+      >
+        {task.status === "DONE" ? "✅ Concluída" : "⏳ Pendente"}
+      </p>
+
+      {/* ⬇️ novo: botão Completar (apenas se pendente) */}
+      {task.status === "PENDING" && (
+        <button
+          onClick={async () => {
+            await fetch(`http://localhost:3000/tasks/${taskId}/complete`, {
+              method: "PATCH",
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            loadTask(); // atualização local
+          }}
+          className="bg-green-600 hover:bg-green-700 transition-colors text-white px-3 py-1 rounded mb-4"
+        >
+          Completar
+        </button>
+      )}
 
       <h3 className="font-semibold mb-2">Comentários:</h3>
       <ul className="mb-2">
         {(task.comments || []).map((c: any) => (
-          <li key={c.id} className="mb-1 flex justify-between items-center text-sm bg-gray-100 px-2 py-1 rounded">
+          <li
+            key={c.id}
+            className="mb-1 flex justify-between items-center text-sm bg-gray-100 px-2 py-1 rounded"
+          >
             <span>
-              <strong>{c.author?.name || 'Desconhecido'}:</strong> {c.content}
+              <strong>{c.author?.name || "Desconhecido"}:</strong> {c.content}
             </span>
-            {(c.userId === user.id || user.role === 'ADMIN') && (
-              <button onClick={() => deleteComment(c.id)} className="text-red-600 hover:text-red-700 transition text-xs ml-2">
+            {(c.userId === user.id || user.role === "ADMIN") && (
+              <button
+                onClick={() => deleteComment(c.id)}
+                className="text-red-600 hover:text-red-700 transition text-xs ml-2"
+              >
                 Excluir
               </button>
             )}
@@ -70,8 +101,18 @@ function TaskView({ taskId, token, user, onBack }: Props) {
         ))}
       </ul>
 
-      <input className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Novo comentário" />
-      <button onClick={postComment} className="bg-blue-600 hover:bg-blue-700 transition-colors text-white px-4 py-1 rounded">Comentar</button>
+      <input
+        className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="Novo comentário"
+      />
+      <button
+        onClick={postComment}
+        className="bg-blue-600 hover:bg-blue-700 transition-colors text-white px-4 py-1 rounded"
+      >
+        Comentar
+      </button>
     </div>
   );
 }
