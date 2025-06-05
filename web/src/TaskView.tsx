@@ -64,20 +64,21 @@ function TaskView({ taskId, token, user, onBack }: Props) {
       </p>
 
       {/* ⬇️ novo: botão Completar (apenas se pendente) */}
-      {task.status === "PENDING" && (
-        <button
-          onClick={async () => {
-            await fetch(`http://localhost:3000/tasks/${taskId}/complete`, {
-              method: "PATCH",
-              headers: { Authorization: `Bearer ${token}` },
-            });
-            loadTask(); // atualização local
-          }}
-          className="bg-green-600 hover:bg-green-700 transition-colors text-white px-3 py-1 rounded mb-4"
-        >
-          Completar
-        </button>
-      )}
+      {task.status === "PENDING" &&
+        (user.role === "ADMIN" || task.assignedTo === user.id) && (
+          <button
+            onClick={async () => {
+              await fetch(`http://localhost:3000/tasks/${taskId}/complete`, {
+                method: "PATCH",
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              loadTask();
+            }}
+            className="bg-green-600 hover:bg-green-700 transition-colors text-white px-3 py-1 rounded mb-4"
+          >
+            Completar
+          </button>
+        )}
 
       <h3 className="font-semibold mb-2">Comentários:</h3>
       <ul className="mb-2">

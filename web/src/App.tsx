@@ -415,14 +415,16 @@ function App() {
                           </span>
 
                           {/* botão Completar (exibe só se ainda estiver pendente) */}
-                          {task.status === "PENDING" && (
-                            <button
-                              onClick={() => completeTask(task.id)}
-                              className="bg-green-600 hover:bg-green-700 transition-colors text-white px-3 py-1 rounded"
-                            >
-                              Completar
-                            </button>
-                          )}
+                          {task.status === "PENDING" &&
+                            (user?.role === "ADMIN" ||
+                              task.assignedTo === user?.id) && (
+                              <button
+                                onClick={() => completeTask(task.id)}
+                                className="bg-green-600 hover:bg-green-700 transition-colors text-white px-3 py-1 rounded"
+                              >
+                                Completar
+                              </button>
+                            )}
                         </div>
 
                         {/* DIREITA ─ botão Excluir (quando permitido) */}
