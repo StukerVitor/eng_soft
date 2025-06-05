@@ -1,28 +1,26 @@
-
 # 🧪 Testes Automatizados
 
-## Estratégia
+- **Framework:** Jest + Supertest  
+- **Cobertura Global Requerida:** ≥ 80 % (`npm run test:coverage`)  
+- Suites organizadas por domínio:
 
-- Divididos por domínio (`auth`, `user`, `task`, `comment`, `permission`)
-- Cobertura mínima de 80%
-- Executados via `npm run test` com `jest --coverage`
-
-## Exemplo
-
-```bash
-PASS tests/auth.test.ts
-PASS tests/task.test.ts
-PASS tests/user.test.ts
-...
-----------------------|---------|----------|---------|---------|-------------------
-File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-----------------------|---------|----------|---------|---------|-------------------
-All files             |    85%  |    83%   |   86%   |  84.5%  |
-----------------------|---------|----------|---------|---------|-------------------
+```
+tests/
+├─ auth.test.ts
+├─ users.test.ts
+├─ tasks.test.ts
+└─ comments.test.ts
 ```
 
-## Execução
-```bash
-npm run test
-npx jest --coverage
+Exemplo de saída:
+
+```
+PASS tests/auth.test.ts
+PASS tests/tasks.test.ts
+PASS tests/users.test.ts
+----------------------|---------|----------|---------|---------|-----------------
+File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Lines
+----------------------|---------|----------|---------|---------|-----------------
+All files             |   86.2% |    83.5% |   87.1% |  85.0% |
+----------------------|---------|----------|---------|---------|-----------------
 ```

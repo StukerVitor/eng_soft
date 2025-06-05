@@ -1,15 +1,21 @@
 # 📌 Visão Geral
 
-O sistema de **Gestão de Tarefas Colaborativas** permite que usuários possam:
+O sistema de **Gestão de Tarefas Colaborativas** oferece:
 
-- Criar, editar, concluir e comentar tarefas
+- Autenticação via JWT
+- Criação, edição, conclusão e exclusão de tarefas
 - Atribuir tarefas a membros específicos
-- Controlar permissões com papéis de usuário (ADMIN, USER, GUEST)
+- Comentários em tarefas
+- Visualização de perfil
+- Controle de permissões por papel de usuário (**ADMIN**, **USER**, **GUEST**)
+- API RESTful documentada em Swagger e interface web responsiva em React + Vite
 
 ### 🎯 Objetivo
 
-Prover uma API RESTful e interface web responsiva para uso em ambientes corporativos e acadêmicos com foco em colaboração e controle de permissões.
+Prover uma API e interface web leve para equipes pequenas e médias organizarem atividades,
+acompanharem progresso e colaborarem em tempo real.
 
 ### 🧠 Contexto de Uso
 
-Aplicável a pequenas e médias equipes que desejam organizar atividades, atribuir responsabilidades e acompanhar progresso em tempo real.
+Indicada para squads ágeis, grupos de pesquisa e turmas acadêmicas que precisem de
+rastreamento de tarefas, controle de papéis e histórico de comentários.

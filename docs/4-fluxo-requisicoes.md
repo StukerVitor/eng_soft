@@ -1,32 +1,34 @@
-
-# 🔁 Fluxo de Requisições
+# 🔁 Fluxo de Endpoints
 
 ## Autenticação
-```
-POST /auth/login        # Login e retorno de token JWT
-POST /auth/logout       # Logout (frontend + API)
-```
+| Método | Endpoint          | Descrição                |
+|--------|-------------------|--------------------------|
+| POST   | /auth/login       | Autentica e devolve JWT  |
+| POST   | /auth/logout      | Logout (frontend)        |
 
 ## Usuários
-```
-POST   /users           # Criação
-GET    /users/:id       # Perfil
-PUT    /users/:id       # Atualização
-DELETE /users/:id       # Soft delete (ADMIN)
-```
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST   | /users              | Cria usuário        |
+| GET    | /users?page=&limit= | Lista usuários      |
+| GET    | /users/{id}         | Detalhes de usuário |
+| PUT    | /users/{id}         | Atualiza usuário    |
+| DELETE | /users/{id}         | Remove (ADMIN)      |
+| GET    | /users/me           | Perfil autenticado  |
 
 ## Tarefas
-```
-POST   /tasks                   # Criação
-GET    /tasks/:id              # Detalhes
-GET    /tasks?assignedTo=1     # Tarefas atribuídas
-PUT    /tasks/:id              # Atualização
-DELETE /tasks/:id             # Exclusão (ADMIN)
-```
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST   | /tasks                   | Cria tarefa |
+| GET    | /tasks?status=&assignedTo= | Lista tarefas |
+| GET    | /tasks/{id}              | Detalhes |
+| PUT    | /tasks/{id}              | Atualiza |
+| PATCH  | /tasks/{id}/complete     | Marca como concluída |
+| DELETE | /tasks/{id}              | Exclui (RBAC) |
 
 ## Comentários
-```
-POST   /tasks/:id/comments
-GET    /tasks/:id/comments
-DELETE /tasks/:id/comments/:commentId
-```
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST   | /tasks/{taskId}/comments             | Cria comentário   |
+| GET    | /tasks/{taskId}/comments             | Lista comentários |
+| DELETE | /tasks/{taskId}/comments/{commentId} | Remove comentário |
