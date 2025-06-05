@@ -62,7 +62,6 @@ Documentação completa disponível em `/docs`:
 - Padrões arquiteturais
 - Fluxo de requisições
 - Estratégia de testes
-- Deploy sugerido
 
 ---
 
