@@ -49,7 +49,7 @@ Express Server (Node.js, TypeScript)
 
 ## Cobertura de Testes
 
-O Jest é configurado para exigir >80% de cobertura global.  
+O Jest é configurado para exigir >78% de cobertura global.  
 Para visualizar o relatório:
 
 ```bash

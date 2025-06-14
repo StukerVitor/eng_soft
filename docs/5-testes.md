@@ -1,7 +1,7 @@
 # 🧪 Testes Automatizados
 
 - **Framework:** Jest + Supertest  
-- **Cobertura Global Requerida:** ≥ 80 % (`npm run test:coverage`)  
+- **Cobertura Global Requerida:** ≥ 78 % (`npm run test:coverage`)  
 - Suites organizadas por domínio:
 
 ```

@@ -43,7 +43,7 @@ npm run test
 npx jest --coverage
 ```
 
-Cobertura mínima de 80% em toda a API:
+Cobertura mínima de 78% em toda a API:
 
 - auth
 - users

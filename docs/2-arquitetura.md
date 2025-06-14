@@ -35,7 +35,7 @@ src/
 - **Prisma ORM** com SQLite (default) ou PostgreSQL
 - **JWT** para autenticação stateless
 - **Winston + Morgan** para logs estruturados
-- **Jest + Supertest** com cobertura mínima global de 80 %
+- **Jest + Supertest** com cobertura mínima global de 78 %
 
 ### Fluxo de Requisição
 
